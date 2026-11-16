@@ -1,6 +1,9 @@
 1.14.3 - Unreleased
 -------------------
 
+- feat: :class:`.MasterDataStore` maintains customer master data. It forms undirected customer groups from explicit identity links, elects the smallest profile id as the master id, and coalesces each field from the group's profiles by source priority, recording the source of every chosen value. ``0``, ``False`` and ``''`` are values, not missing. It generates a master profile table and an orders table completed with master attributes, and reattaches old orders when a merge is confirmed or undone. Changes are applied in atomic :class:`.MasterDataBatch` objects that may mix additions, corrections and deletions from any number of sources; a batch that would leave a dangling identity link is rejected in its entirety. Removing a bridge link recomputes the whole affected group and its orders. Ordinary corrections update only the affected groups and orders, while :meth:`.MasterDataStore.check` performs a full check of the customer graph. Every batch appends an immutable :class:`.MasterDataSnapshot`.
+- feat: :class:`.Native` and :func:`.infer_data_type` preserve values of mixed native types in master data columns.
+- feat: :class:`.MasterDataError`, :class:`.DanglingIdentityLinkError`, :class:`.DuplicateProfileError` and :class:`.UnknownProfileError`.
 - feat: :class:`.Median`, :class:`.Percentiles`, :class:`.Quartiles`, :class:`.Quintiles`, :class:`.Deciles` and :class:`.IQR` can be applied to :class:`.TimeDelta` columns, like :class:`.Sum` and :class:`.Mean`.
 - fix: :meth:`.Table.distinct` now deduplicates rows when ``key`` is a sequence of column names.
 - fix: :class:`.Rank` ranks null values last when ``reverse=True``.

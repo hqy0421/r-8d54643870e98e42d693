@@ -14,6 +14,7 @@ API
     api/computations
     api/csv
     api/fixed
+    api/masterdata
     api/misc
     api/exceptions
     api/warns
